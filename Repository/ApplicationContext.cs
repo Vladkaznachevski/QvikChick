@@ -17,5 +17,9 @@ namespace Repository
         public DbSet<ShoppingList> ShoppingLists { get; set; } = null!;
         public DbSet<BuyerInfo> BuyerInfos { get; set; } = null!;
         public DbSet<Basket> Baskets { get; set; } = null!;
+
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
+        : base(options)
+        { }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    public class Basket
+    public class Basket : BaseEntity 
     {
         public BuyerInfo BuyerInfo { get; set; }
         public ShoppingList ShoppingList { get; set; }

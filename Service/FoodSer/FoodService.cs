@@ -1,6 +1,5 @@
 ﻿using Data;
-using Repository;
-
+using Repository.FoodRepo;
 namespace Service.FoodSer
 {
     public class FoodService : IFoodService
