@@ -1,13 +1,22 @@
 using Microsoft.EntityFrameworkCore;
 using Repository;
+using Repository.FoodRepo;
+using Service.FoodSer;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+   
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
+
+
+builder.Services.AddScoped(typeof(IFoodRepository), typeof(FoodRepository));
+
+builder.Services.AddTransient<IFoodService, FoodService>();
+
 
 var app = builder.Build();
 
@@ -28,6 +37,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Privacy}/{id?}");
 
 app.Run();

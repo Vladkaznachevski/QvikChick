@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Service.FoodSer
 {
-    internal interface IFoodService
+    public interface IFoodService
     {
         List<Food> GetFoods();
         Food GetFoodById(int id);

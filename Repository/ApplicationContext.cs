@@ -18,8 +18,15 @@ namespace Repository
         public DbSet<BuyerInfo> BuyerInfos { get; set; } = null!;
         public DbSet<Basket> Baskets { get; set; } = null!;
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options)
+
+
+    public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
-        { }
-    }
+        {
+
+            Database.EnsureCreated(); // создаем базу данных при первом обращении
+            
+        }
+
+}
 }

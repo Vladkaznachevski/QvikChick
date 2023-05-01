@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repository.PersonRepo
 {
-    internal interface IPersonRepository : IRepository<Person>
+    public interface IPersonRepository : IRepository<Person>
     {
     }
 }
