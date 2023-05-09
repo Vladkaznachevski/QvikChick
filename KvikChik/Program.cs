@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Repository;
 using Repository.FoodRepo;
 using Service.FoodSer;
+using Repository.ReustarantRepo;
+using Service.ReustarantSer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,9 @@ builder.Services.AddScoped(typeof(IFoodRepository), typeof(FoodRepository));
 
 builder.Services.AddTransient<IFoodService, FoodService>();
 
+builder.Services.AddScoped(typeof(IReustarantRepository), typeof(ReustarantRepository));
+
+builder.Services.AddTransient<IReustarantService, ReustarantService>();
 
 var app = builder.Build();
 

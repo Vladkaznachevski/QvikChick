@@ -1,14 +1,12 @@
 ﻿@model KvikChik.Models.ViewModels.FoodViewModel
 @{
-    ViewData["Name"] = "Добавление нового блюда";
-    ViewData["Description"] = "Добавление нового блюда";
-    ViewData["Size"] = "Добавление нового блюда";
+    
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="card">
     <div class="card-header">
-        <h1>Добавление нового жанра</h1>
+        <h1>Добавление нового блюда</h1>
     </div>
     <div class="card-body">
         <form asp-controller="AdminFood" asp-action="Create" method="post">

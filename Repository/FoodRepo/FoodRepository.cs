@@ -30,17 +30,20 @@ namespace Repository.FoodRepo
         public void Create(Food Food)
         {
             _context.Foods.Add(Food);
+            _context.SaveChanges();
         }
 
         public void Update(Food Food)
         {
             _context.Foods.Update(Food);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
             Food Food = Get(id);
             _context.Foods.Remove(Food);
+            _context.SaveChanges();
         }
     }
 }

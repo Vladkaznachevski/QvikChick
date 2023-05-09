@@ -67,7 +67,7 @@ namespace KvikChik.Controllers
                     return RedirectToAction("FoodsList", "AdminFood");
                 }
                 return View(model);
-        }
+            }
 
 
             [HttpGet]
@@ -113,7 +113,12 @@ namespace KvikChik.Controllers
             }
 
 
-
+            [HttpGet]
+            public IActionResult Index()
+            {
+               
+                return View();
+            }
 
 
     }

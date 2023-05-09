@@ -52,14 +52,41 @@
             </svg> Главная<span class="badge badge-sm bg-info ms-auto">NEW</span>
           </a>
         </li>
-        <li class="nav-title">Управление книгами</li>
+        <li class="nav-title">Управление блюдами</li>
         <li class="nav-item">
-          <a class="nav-link" asp-controller="AdminFood" asp-action="FoodsList">
+          <a class="nav-link" asp-controller="AdminFood" asp-action="Create">
             <svg class="nav-icon">
               <use xlink:href="/js/admin/vendors/@@coreui/icons/svg/free.svg#cil-bookmark"></use>
-            </svg> Жанры
+            </svg> Добавить блюдо
           </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="AdminFood" asp-action="FoodsList">
+                <svg class="nav-icon">
+                    <use xlink:href="/js/admin/vendors/@@coreui/icons/svg/free.svg#cil-bookmark"></use>
+                </svg> Cписок блюд
+            </a>
+        </li>
+
+
+            <li class="nav-title">Управление Ресторанами</li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="AdminReustarant" asp-action="Create">
+                    <svg class="nav-icon">
+                        <use xlink:href="/js/admin/vendors/@@coreui/icons/svg/free.svg#cil-bookmark"></use>
+                    </svg> Добавить ресторан
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="AdminReustarant" asp-action="ReustarantsList">
+                    <svg class="nav-icon">
+                        <use xlink:href="/js/admin/vendors/@@coreui/icons/svg/free.svg#cil-bookmark"></use>
+                    </svg> Cписок ресторанов
+                </a>
+            </li>
+
       </ul>
       <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
     </div>
