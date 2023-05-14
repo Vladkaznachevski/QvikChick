@@ -31,17 +31,20 @@ namespace Repository.ReustarantRepo
         public void Create(Reustarant Reustarant)
         {
             _context.Reustarants.Add(Reustarant);
+            _context.SaveChanges();
         }
 
         public void Update(Reustarant Reustarant)
         {
             _context.Reustarants.Update(Reustarant);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
             Reustarant Reustarant = Get(id);
             _context.Reustarants.Remove(Reustarant);
+            _context.SaveChanges();
         }
     }
 }

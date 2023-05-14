@@ -1,4 +1,6 @@
-﻿namespace KvikChik.Models.ViewModels
+﻿using Data;
+
+namespace KvikChik.Models.ViewModels
 {
     public class FoodViewModel
     {
@@ -8,5 +10,12 @@
         public string Size { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
+
+
+     
+
+
+
+
     }
 }

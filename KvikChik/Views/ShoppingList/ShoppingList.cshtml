@@ -1,0 +1,115 @@
+﻿@using KvikChik.Models.ViewModels;
+
+
+@model List<KvikChik.Models.ViewModels.ShoppingListViewModel>
+@{
+    ViewData["Name"] = "Добавление нового блюда";
+    ViewData["Description"] = "Добавление нового блюда";
+    ViewData["Size"] = "Добавление нового блюда";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <h1>Список блюд</h1>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-3">
+                <a class="btn btn-primary" asp-controller="AdminFood" asp-action="Create">Добавить блюдо</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Название</th>
+                                <th>Дата создания</th>
+                                <th>Дата изменения</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                       
+
+                            @foreach (FoodViewModel item in ViewBag.FoodList)
+                            {
+                                <tr>
+                                    <td>@(item.Id + 1)</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.CreatedDate</td>
+                                    <td>@item.ModifiedDate</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a class="btn btn-dark" asp-controller="AdminFood" asp-action="Update" asp-route-Id="">
+                                                Добавить в лист
+                                            </a>
+ 
+                                        </div>
+                                      <!-- <form class="delete-form" asp-controller="AdminFood" asp-action="Delete" asp-route-Id="" method="post" id="delete-form-"" data-name=""></form>  -->
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Подтвердите удаление</h5>
+                <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы действительно хотите удалить жанр <span></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="deleteModalConfirm">Удалить</button>
+                <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Отмена</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const deleteForms = document.querySelectorAll('.delete-form')
+        const deleteModal = new coreui.Modal('#delete-modal', {
+            focus: true
+        })
+
+        const handleDelete = (e) => {
+            e.preventDefault()
+
+            const name = e.target.getAttribute('data-name')
+            const modalSpan = deleteModal._dialog.querySelector('.modal-body span')
+            const modalConfirm = deleteModal._dialog.querySelector('#deleteModalConfirm')
+
+            modalSpan.innerHTML = name
+
+            deleteModal.show()
+
+            modalConfirm.addEventListener('click', () => {
+                deleteModal.hide()
+
+                e.target.submit()
+            })
+        }
+
+        deleteForms.forEach(deleteForm => {
+            deleteForm.addEventListener('submit', handleDelete)
+        })
+    </script>
+}
