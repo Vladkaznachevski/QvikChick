@@ -1,0 +1,20 @@
+﻿@model KvikChik.Models.ViewModels.ShopCartViewModel
+
+
+<p>Use this page to detail your site's privacy policy.</p>
+
+<div class="container">
+
+    @foreach (var el in Model.ShopCartRepository.listShopItems)
+    {
+        <div class ="alert alert-warning mt-3">
+            <b>@el.food.Name</b>
+
+        </div>
+
+    }
+    <div class="btn" asp-controller="Order" ></div>
+    <a class="btn btn-dark" asp-controller="Home" asp-action="Index">
+        К меню
+    </a>
+</div>

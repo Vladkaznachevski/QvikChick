@@ -16,13 +16,13 @@ namespace KvikChik.Controllers
 
             public IActionResult FoodsList()
             {
-                List<FoodViewModel> model = new List<FoodViewModel>();
+                List<Food> model = new List<Food>();
                 List<Food> Foods = _FoodService.GetFoods();
 
 
                 foreach (Food Food in Foods)
                 {
-                    FoodViewModel bvm = new FoodViewModel
+                    Food bvm = new Food
                     {
                         Id = Food.Id,
                         Name = Food.Name,
@@ -105,7 +105,6 @@ namespace KvikChik.Controllers
                 return View(model);
             }
 
-            [HttpPost]
             public IActionResult Delete(int Id)
             {
                 _FoodService.DeleteFood(Id);

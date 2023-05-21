@@ -1,8 +1,46 @@
-﻿@{
+﻿@using Data;
+@using KvikChik.Models.ViewModels;
+@model List<Data.Food>
+@{
     ViewData["Title"] = "Home Page";
 }
-
+        
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                
+                <th>Название</th>
+                <th>Дата создания</th>
+                <th>Дата изменения</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        @foreach (Food item1 in Model)
+        {
+                <tr>
+                    
+                    <td>@item1.Name</td>
+                    <td>@item1.CreatedDate</td>
+                    <td>@item1.ModifiedDate</td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+ 
+                            <a class="btn btn-danger" asp-controller="ShopCart" asp-action="AddToCart" asp-route-id="@item1.Id">
+                                добавить в корзину
+                            </a>
+                        </div>
+                        <form class="delete-form" asp-controller="AdminFood" asp-action="Delete" asp-route-Id="Model.Id" method="post" id="delete-form-Model.Id" data-name="Model.Name"></form>
+                    </td>
+
+                </tr>
+        }
+
+        </tbody>
+
+    </table>
 </div>

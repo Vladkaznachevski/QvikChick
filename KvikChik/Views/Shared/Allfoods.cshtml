@@ -1,0 +1,26 @@
+﻿@using Data;
+@model Data.Food
+
+
+<tr>
+        <td>@Model.Name</td>
+        <td>@Model.Name</td>
+        <td>@Model.CreatedDate</td>
+        <td>@Model.ModifiedDate</td>
+        <td>
+            <div class="btn-group btn-group-sm">
+                <a class="btn btn-dark" asp-controller="AdminFood" asp-action="Update" asp-route-Id="@Model.Id">
+                    Редактировать
+                </a>
+            <a class="btn btn-danger" asp-controller="AdminFood" asp-action="Delete" asp-route-Id="@Model.Id">
+                Удалить
+                </a>
+                <a class="btn btn-danger" asp-controller="ShopCart" asp-action="AddToCart" asp-route-id="@Model.Id">
+                    добавить в корзину
+                </a>
+            </div>
+            <form class="delete-form" asp-controller="AdminFood" asp-action="Delete" asp-route-Id="Model.Id" method="post" id="delete-form-Model.Id" data-name="Model.Name"></form>
+        </td>
+   
+</tr>
+

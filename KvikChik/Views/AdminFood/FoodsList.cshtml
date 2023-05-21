@@ -1,4 +1,6 @@
-﻿@model List<KvikChik.Models.ViewModels.FoodViewModel>
+﻿@using Data;
+@using KvikChik.Models.ViewModels;
+@model List<Data.Food>
 @{
     ViewData["Name"] = "Добавление нового блюда";
     ViewData["Description"] = "Добавление нового блюда";
@@ -35,80 +37,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.Select((value, index) => new { index, value }))
+                        
+                            @foreach (Food item1 in Model)
                             {
-                                <tr>
-                                    <td>@(item.index + 1)</td>
-                                    <td>@item.value.Name</td>
-                                    <td>@item.value.CreatedDate</td>
-                                    <td>@item.value.ModifiedDate</td>
-                                    <td>
-                                        <div class="btn-group btn-group-sm">
-                                            <a class="btn btn-dark" asp-controller="AdminFood" asp-action="Update" asp-route-Id="@item.value.Id">
-                                                Редактировать
-                                            </a>
-                                            <button class="btn btn-danger" type="submit" form="delete-form-@item.value.Id">
-                                                Удалить
-                                            </button>
-                                        </div>
-                                        <form class="delete-form" asp-controller="AdminFood" asp-action="Delete" asp-route-Id="@item.value.Id" method="post" id="delete-form-@item.value.Id" data-name="@item.value.Name"></form>
-                                    </td>
-                                </tr>
+                            @Html.Partial("Allfoods",item1)
                             }
+                           
                         </tbody>
-                    </table>
+
+                    </table> 
                 }
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Подтвердите удаление</h5>
-                <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Вы действительно хотите удалить жанр <span></span>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="deleteModalConfirm">Удалить</button>
-                <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Отмена</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-@section Scripts {
-    <script>
-        const deleteForms = document.querySelectorAll('.delete-form')
-        const deleteModal = new coreui.Modal('#delete-modal', {
-            focus: true
-        })
-
-        const handleDelete = (e) => {
-            e.preventDefault()
-
-            const name = e.target.getAttribute('data-name')
-            const modalSpan = deleteModal._dialog.querySelector('.modal-body span')
-            const modalConfirm = deleteModal._dialog.querySelector('#deleteModalConfirm')
-
-            modalSpan.innerHTML = name
-            
-            deleteModal.show()
-
-            modalConfirm.addEventListener('click', () => {
-                deleteModal.hide()
-
-                e.target.submit()
-            })
-        }
-
-        deleteForms.forEach(deleteForm => {
-            deleteForm.addEventListener('submit', handleDelete)
-        })
-    </script>
-}

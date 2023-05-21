@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230517143233_shops")]
+    partial class shops
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,68 +122,6 @@ namespace Repository.Migrations
                     b.ToTable("Foods");
                 });
 
-            modelBuilder.Entity("Data.Order", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<string>("address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("orderTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("surname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("Data.OrderDetail", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int>("foodID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("orderID")
-                        .HasColumnType("int");
-
-                    b.Property<long>("price")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("foodID");
-
-                    b.HasIndex("orderID");
-
-                    b.ToTable("OrderDetails");
-                });
-
             modelBuilder.Entity("Data.Person", b =>
                 {
                     b.Property<int>("Id")
@@ -262,7 +203,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("foodId");
 
-                    b.ToTable("ShopCartItems");
+                    b.ToTable("ShopCartItem");
                 });
 
             modelBuilder.Entity("Data.ShoppingList", b =>
@@ -533,25 +474,6 @@ namespace Repository.Migrations
                         .HasForeignKey("ShoppingListId");
                 });
 
-            modelBuilder.Entity("Data.OrderDetail", b =>
-                {
-                    b.HasOne("Data.Food", "food")
-                        .WithMany()
-                        .HasForeignKey("foodID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.Order", "order")
-                        .WithMany("orderDetails")
-                        .HasForeignKey("orderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("food");
-
-                    b.Navigation("order");
-                });
-
             modelBuilder.Entity("Data.ShopCartItem", b =>
                 {
                     b.HasOne("Data.Food", "food")
@@ -612,11 +534,6 @@ namespace Repository.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Data.Order", b =>
-                {
-                    b.Navigation("orderDetails");
                 });
 
             modelBuilder.Entity("Data.ShoppingList", b =>

@@ -6,6 +6,7 @@ using Service.FoodSer;
 using Repository.ReustarantRepo;
 using Service.ReustarantSer;
 using Data;
+using Repository.ShopCartRepo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,10 @@ builder.Services.AddScoped(typeof(IReustarantRepository), typeof(ReustarantRepos
 builder.Services.AddTransient<IReustarantService, ReustarantService>();
 
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationContext>();
-
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped(sp => ShopCartRepository.GetCart(sp));
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -42,7 +46,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();   
 app.UseAuthorization();
 
 app.MapControllerRoute(
