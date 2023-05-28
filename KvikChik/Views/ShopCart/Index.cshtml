@@ -1,7 +1,7 @@
 ﻿@model KvikChik.Models.ViewModels.ShopCartViewModel
 
 
-<p>Use this page to detail your site's privacy policy.</p>
+<p>Это ваша Корзина</p>
 
 <div class="container">
 
@@ -13,8 +13,12 @@
         </div>
 
     }
-    <div class="btn" asp-controller="Order" ></div>
+
     <a class="btn btn-dark" asp-controller="Home" asp-action="Index">
         К меню
+    </a>
+
+    <a class="btn btn-dark" asp-controller="Order" asp-action="Checkout">
+        Оплатить
     </a>
 </div>

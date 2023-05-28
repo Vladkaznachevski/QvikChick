@@ -9,7 +9,7 @@ namespace Repository.OrderRepo
 {
     public interface IOrdersRepository
     {
-    void createOrder(Order order);
+    void CreateOrder(Order order);
 
     }
 }

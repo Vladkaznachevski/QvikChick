@@ -13,14 +13,9 @@ namespace Repository
     public class ApplicationContext : IdentityDbContext<User>
     {
         public DbSet<Food> Foods { get; set; } = null!;
-        public DbSet<Person> Persons { get; set; } = null!;
-        public DbSet<Reustarant> Reustarants { get; set; } = null!;
-        public DbSet<ShoppingList> ShoppingLists { get; set; } = null!;
-        public DbSet<BuyerInfo> BuyerInfos { get; set; } = null!;
-        public DbSet<Basket> Baskets { get; set; } = null!;
-
+  
+        //      public DbSet<Reustarant> Reustarants { get; set; } = null!;
         public DbSet<ShopCartItem> ShopCartItems { get; set; } = null!;
-
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderDetail> OrderDetails { get; set; } = null!;
 

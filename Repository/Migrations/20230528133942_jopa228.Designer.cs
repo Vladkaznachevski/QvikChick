@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230528133942_jopa228")]
+    partial class jopa228
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,9 +77,6 @@ namespace Repository.Migrations
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
-                    b.Property<int>("orderDetailId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("orderTime")
                         .HasColumnType("datetime2");
 
@@ -107,9 +107,39 @@ namespace Repository.Migrations
                     b.Property<int>("orderId")
                         .HasColumnType("int");
 
+                    b.Property<long>("price")
+                        .HasColumnType("bigint");
+
                     b.HasKey("id");
 
+                    b.HasIndex("foodId");
+
+                    b.HasIndex("orderId");
+
                     b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("Data.Reustarant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Reustarants");
                 });
 
             modelBuilder.Entity("Data.ShopCartItem", b =>
@@ -340,6 +370,25 @@ namespace Repository.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Data.OrderDetail", b =>
+                {
+                    b.HasOne("Data.Food", "food")
+                        .WithMany()
+                        .HasForeignKey("foodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Order", "order")
+                        .WithMany("orderDetails")
+                        .HasForeignKey("orderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("food");
+
+                    b.Navigation("order");
+                });
+
             modelBuilder.Entity("Data.ShopCartItem", b =>
                 {
                     b.HasOne("Data.Food", "food")
@@ -400,6 +449,11 @@ namespace Repository.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Data.Order", b =>
+                {
+                    b.Navigation("orderDetails");
                 });
 #pragma warning restore 612, 618
         }

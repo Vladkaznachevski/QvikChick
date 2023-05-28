@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository.ReustarantRepo
+namespace Service.OrderSer
 {
-    public interface IReustarantRepository : IRepository<Reustarant>
+    public interface IOrderService
     {
+        void CreateOrder(Order order);
+
     }
 }

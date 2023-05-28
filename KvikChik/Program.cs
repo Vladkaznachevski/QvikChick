@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Repository;
 using Repository.FoodRepo;
 using Service.FoodSer;
-using Repository.ReustarantRepo;
-using Service.ReustarantSer;
+
 using Data;
 using Repository.ShopCartRepo;
+using Repository.OrderRepo;
+using Service.OrderSer;
+using Service.OrderService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,12 +21,10 @@ builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServe
 
 
 builder.Services.AddScoped(typeof(IFoodRepository), typeof(FoodRepository));
-
 builder.Services.AddTransient<IFoodService, FoodService>();
 
-builder.Services.AddScoped(typeof(IReustarantRepository), typeof(ReustarantRepository));
-
-builder.Services.AddTransient<IReustarantService, ReustarantService>();
+builder.Services.AddScoped(typeof(IOrdersRepository), typeof(OrdersRepository));
+builder.Services.AddTransient<IOrderService, OrderService>();
 
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationContext>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
