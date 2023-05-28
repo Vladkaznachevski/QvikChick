@@ -1,6 +1,8 @@
-﻿@using Data;
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, KvikChik
+@using Data;
 @using KvikChik.Models.ViewModels;
-@model List<Data.Food>
+@model KvikChik.Models.ViewModels.FoodsListViewModel
 @{
     ViewData["Name"] = "Добавление нового блюда";
     ViewData["Description"] = "Добавление нового блюда";
@@ -20,7 +22,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                @if (Model.Count == 0)
+                @if (Model.Foods.Count == 0)
                 {
                     <p>Список блюд пуст</p>
                 }
@@ -29,7 +31,7 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                               
+                                <th>№</th>
                                 <th>Название</th>
                                 <th>Дата создания</th>
                                 <th>Дата изменения</th>
@@ -37,15 +39,45 @@
                             </tr>
                         </thead>
                         <tbody>
-                        
-                            @foreach (Food item1 in Model)
+
+        <!--            //foreach (Food item1 in Model)  
+                        // {
+                           // Html.Partial("Allfoods",item1)
+                           // }
+                                                -->
+                            @foreach (var item in Model.Foods.Select((value, index) => new { index, value }))
                             {
-                            @Html.Partial("Allfoods",item1)
+                                <tr>
+                                    <td>@(item.index + 1)</td>
+                                    <td>@item.value.Name</td>
+                                    <td>@item.value.Description</td>
+                                    <td>@item.value.CreatedDate</td>
+                                    <td>@item.value.ModifiedDate</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a class="btn btn-dark" asp-controller="AdminFood" asp-action="Update" asp-route-Id="@item.value.Id">
+                                                Редактировать
+                                            </a>
+                                            <button class="btn btn-danger" type="submit" form="delete-form-@item.value.Id">
+                                                Удалить
+                                            </button>
+                                        </div>
+                                        <form class="delete-form" asp-controller="AdminFood" asp-action="Delete" asp-route-Id="@item.value.Id" method="post" id="delete-form-@item.value.Id" data-name="@item.value.Name"></form>
+                                    </td>
+                                </tr>
                             }
-                           
+
+
+
+
                         </tbody>
 
-                    </table> 
+                    </table>
+
+                    <page-link page-view-model="Model.PageViewModel"
+                               page-action="BooksList"
+                               page-url-sortOrder="@(Model.SortViewModel.Current)"
+                    ></page-link>
                 }
             </div>
         </div>

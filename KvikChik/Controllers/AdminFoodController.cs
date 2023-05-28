@@ -2,6 +2,8 @@
 using Service.FoodSer;
 using Data;
 using KvikChik.Models.ViewModels;
+using KvikChik.Models.ViewModels.Default;
+
 namespace KvikChik.Controllers
 {
     public class AdminFoodController : Controller
@@ -14,8 +16,9 @@ namespace KvikChik.Controllers
                 _FoodService = FoodService;
             }
 
-            public IActionResult FoodsList()
+            public async Task<IActionResult> FoodsList(string? search, SortState sortOrder = SortState.NameAsc, int page = 1)
             {
+                int pageSize = 2;
                 List<Food> model = new List<Food>();
                 List<Food> Foods = _FoodService.GetFoods();
 
@@ -34,7 +37,31 @@ namespace KvikChik.Controllers
 
                     model.Add(bvm);
                 }
-                return View(model);
+
+                model = sortOrder switch
+                {
+                    SortState.NameDesc => model.OrderByDescending(b => b.Name).ToList(),
+                    _ => model.OrderBy(b => b.Name).ToList()
+                };
+
+
+                int count = model.Count();
+                model = model.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+                FoodsListViewModel model2 = new FoodsListViewModel
+                (
+                    Foods,
+                    new PageViewModel(count, page, pageSize),
+                    new SortViewModel(sortOrder)
+                );
+
+
+
+
+
+
+
+            return View(model2);
             }
 
 
