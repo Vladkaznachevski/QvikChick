@@ -19,49 +19,28 @@ namespace KvikChik.Controllers
             public async Task<IActionResult> FoodsList(string? search, SortState sortOrder = SortState.NameAsc, int page = 1)
             {
                 int pageSize = 2;
-                List<Food> model = new List<Food>();
-                List<Food> Foods = _FoodService.GetFoods();
+                List<Food> foods = _FoodService.GetFoods();
 
 
-                foreach (Food Food in Foods)
+                foods = sortOrder switch
                 {
-                    Food bvm = new Food
-                    {
-                        Id = Food.Id,
-                        Name = Food.Name,
-                        Size = Food.Size,
-                        Description = Food.Description,
-                        CreatedDate = Food.CreatedDate,
-                        ModifiedDate = Food.ModifiedDate
-                    };
-
-                    model.Add(bvm);
-                }
-
-                model = sortOrder switch
-                {
-                    SortState.NameDesc => model.OrderByDescending(b => b.Name).ToList(),
-                    _ => model.OrderBy(b => b.Name).ToList()
+                    SortState.NameDesc => foods.OrderByDescending(b => b.Name).ToList(),
+                    _ => foods.OrderBy(b => b.Name).ToList()
                 };
 
 
-                int count = model.Count();
-                model = model.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                int count = foods.Count();
+                foods = foods.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
-                FoodsListViewModel model2 = new FoodsListViewModel
+                FoodsListViewModel model = new FoodsListViewModel
                 (
-                    Foods,
+                    foods,
                     new PageViewModel(count, page, pageSize),
                     new SortViewModel(sortOrder)
                 );
 
 
-
-
-
-
-
-            return View(model2);
+            return View(model);
             }
 
 
