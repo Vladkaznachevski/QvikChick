@@ -3,40 +3,53 @@ using Service.FoodSer;
 using Data;
 using KvikChik.Models.ViewModels;
 using KvikChik.Models.ViewModels.Default;
+using Repository;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace KvikChik.Controllers
 {
     public class AdminFoodController : Controller
     {
-
+            private readonly ApplicationContext _context;
             private IFoodService _FoodService;
 
-            public AdminFoodController(IFoodService FoodService)
+            public AdminFoodController(IFoodService FoodService, ApplicationContext context)
             {
                 _FoodService = FoodService;
-            }
+                _context = context;
+        }
 
-            public async Task<IActionResult> FoodsList(string? search, SortState sortOrder = SortState.NameAsc, int page = 1)
+            public async Task<IActionResult> FoodsList(string search, int? food, SortState sortOrder = SortState.NameDesc, int page = 1)
             {
                 int pageSize = 2;
-                List<Food> foods = _FoodService.GetFoods();
 
+                IQueryable<Food> foods = _context.Foods;
 
-                foods = sortOrder switch
+ 
+                if (!String.IsNullOrEmpty(search))
                 {
-                    SortState.NameDesc => foods.OrderByDescending(b => b.Name).ToList(),
-                    _ => foods.OrderBy(b => b.Name).ToList()
-                };
+                    foods = foods.Where(p => p.Name.Contains(search));  
+                }
 
 
-                int count = foods.Count();
-                foods = foods.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
-                FoodsListViewModel model = new FoodsListViewModel
+            switch (sortOrder)
+            {
+                case SortState.NameDesc:
+                    foods = foods.OrderByDescending(s => s.Name);
+                    break;
+            }
+
+
+            var count = foods.Count();
+            var items = foods.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            FoodsListViewModel model = new FoodsListViewModel
                 (
-                    foods,
+                    items,
                     new PageViewModel(count, page, pageSize),
-                    new SortViewModel(sortOrder)
+                    new SortViewModel(sortOrder),
+                    new FilterViewModel(_context.Foods.ToList(), food, search)
                 );
 
 
